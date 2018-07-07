@@ -15,7 +15,6 @@ public class CacheUnitModel extends Observable implements Model {
         cacheUnitClient = new CacheUnitClient();
     }
 
-
     @Override
     public <T> void updateModelData(T t) {
         String serverResponse = cacheUnitClient.send(t.toString());

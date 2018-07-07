@@ -1,19 +1,22 @@
 package com.hit.view;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Observable;
 
 
-public class CacheUnitView extends Observable implements com.hit.view.View {
+public class CacheUnitView extends Observable implements View {
     private final String statisticsRequest = "{\"headers\":{\"action\":\"STATISTICS\"}}";
 
     private JFrame mainFrame;
     private JPanel buttonsPanel;
     private JButton loadRequestButton;
     private JButton showStatisticsButton;
+    private JPanel statisticsContentPanel;
     private JTextArea statisticsContentTextArea;
     private JFileChooser fileChooser;
     private JScrollPane statisticsContentScroll;
@@ -66,8 +69,7 @@ public class CacheUnitView extends Observable implements com.hit.view.View {
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.setSize(450, 300);
         mainFrame.getContentPane().add(BorderLayout.NORTH, buttonsPanel);
-        mainFrame.getContentPane().add(BorderLayout.CENTER, statisticsContentTextArea);
-        mainFrame.getContentPane().add(statisticsContentScroll);
+        mainFrame.getContentPane().add(BorderLayout.CENTER, statisticsContentPanel);
     }
 
     /**
@@ -113,14 +115,24 @@ public class CacheUnitView extends Observable implements com.hit.view.View {
      * Initialize the statistics content JtextArea and JScrollPane
      */
     private void initializeStatisticsContentArea() {
-        //init statisticsContentTextArea
+    	//init statisticsContentPanel
+    	statisticsContentPanel = new JPanel();
+    	statisticsContentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+    	statisticsContentPanel.setLayout(new BorderLayout(0, 0));
+        
+    	//init statisticsContentTextArea
         statisticsContentTextArea = new JTextArea();
 
         statisticsContentTextArea.setLineWrap(true);
         statisticsContentTextArea.setEditable(false);
         statisticsContentTextArea.setSize(new Dimension(400, 400));
+        statisticsContentPanel.add(statisticsContentTextArea);
+        
+        //init the textArea scroll pane
         statisticsContentScroll = new JScrollPane (statisticsContentTextArea,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        
+        statisticsContentPanel.add(statisticsContentScroll);
     }
 
     /**
